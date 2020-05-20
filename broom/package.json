@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config ./build/webpack.config.dev.js --color",
-    "build": "npm run clear && webpack --config ./build/webpack.config.prod.js --color",
+    "build": "npm run clear && webpack --config ./build/webpack.config.prod.js --color && npm run sm",
     "clear": "rimraf dist",
     "sm": "node script/source-map.js"
   },
