@@ -39,7 +39,8 @@ function reportError () {
 function reportErrorCallback (deadline) {
   isReporting = false
   while (deadline.timeRemaining() > 0 && datas.length > 0) {
-    // http(datas.pop())
+    // 数据上报
+    datas.pop()
   }
   if (datas.length) {
     reportError()

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "dev": "nodemon app.js",
+    "prev": ""
   },
   "dependencies": {
     "koa": "^2.3.0",
