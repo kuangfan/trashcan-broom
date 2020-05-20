@@ -12,7 +12,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Content-Length', 'Authorization', 'Accept', 'X-Requested-With', 'x-access-token']
 }))
 app.use(bodyparser())
-app.use(json())
 router(app)
 
 module.exports = app.listen(config.port, () => {

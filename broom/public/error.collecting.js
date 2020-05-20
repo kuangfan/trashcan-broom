@@ -39,8 +39,9 @@ function reportError () {
 function reportErrorCallback (deadline) {
   isReporting = false
   while (deadline.timeRemaining() > 0 && datas.length > 0) {
+    const data = datas.pop()
     // 数据上报
-    datas.pop()
+    $.get('http://localhost:5555', data)
   }
   if (datas.length) {
     reportError()

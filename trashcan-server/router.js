@@ -1,4 +1,5 @@
 const glob = require('glob')
+const path = require('path')
 
 module.exports = function (app) {
   const paths = glob.sync(path.resolve('./router/*.router.js'))
