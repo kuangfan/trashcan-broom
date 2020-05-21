@@ -4,23 +4,21 @@ const errors = []
 let isReporting = false
 
 window.onerror = function onError (message, source, row, col) {
-  const err = {
+  handleError({
     message,
     source,
     row,
     col
-  }
-  handleError(err)
+  })
 }
 
 window.onunhandledrejection = (err) => {
-  const err = {
+  handleError({
     message: err.reason,
     source: 'async',
     row: '',
     col: ''
-  }
-  handleError(err)
+  })
 }
 
 function handleError (err) {
@@ -38,11 +36,12 @@ function reportError () {
 
 function reportErrorCallback (deadline) {
   isReporting = false
-  while (deadline.timeRemaining() > 0 && datas.length > 0) {
+  while (deadline.timeRemaining() > 0 && errors.length > 0) {
+    const data = errors.pop()
     // 数据上报
-    datas.pop()
+    $.post('http://localhost:5555/sm', data)
   }
-  if (datas.length) {
+  if (errors.length) {
     reportError()
   }
 }
