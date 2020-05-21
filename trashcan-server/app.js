@@ -2,9 +2,11 @@ const Koa = require('koa')
 const app = new Koa()
 const bodyparser = require('koa-bodyparser')
 const cors = require('@koa/cors')
+const response = require('./middleware/response')
 const config = require('./config')
 const router = require('./router')
 
+app.use(response())
 app.use(cors({
   origin: '*',
   credentials: true,
