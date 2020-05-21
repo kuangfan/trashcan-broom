@@ -5,6 +5,12 @@ const db = []
 
 module.exports = {
   async getSms (ctx, next) {
+    ctx.result = {
+      msg: 'success',
+      code: 200,
+      data: db
+    }
+    await next()
   },
   async getSm (ctx, next) {
   },
