@@ -12,14 +12,14 @@ window.onerror = function onError (message, source, row, col) {
   })
 }
 
-window.onunhandledrejection = (err) => {
-  handleError({
-    message: err.reason,
-    source: 'async',
-    row: '',
-    col: ''
-  })
-}
+// window.onunhandledrejection = (err) => {
+//   handleError({
+//     message: err.reason,
+//     source: 'async',
+//     row: '',
+//     col: ''
+//   })
+// }
 
 function handleError (err) {
   errors.push(err)

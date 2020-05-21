@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="错误信息" width="180"></el-table-column>
-      <el-table-column prop="name" label="来源" width="180"></el-table-column>
-      <el-table-column prop="address" label="详情"></el-table-column>
+      <el-table-column prop="message" label="错误信息" width="400"></el-table-column>
+      <el-table-column prop="source" label="来源" width="400"></el-table-column>
+      <el-table-column prop="address" label="详情">
+        <template slot-scope="scope">
+          <el-button @click="getDetail(scope.row)" type="danger">详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -20,6 +24,17 @@ export default {
   },
 
   created () {
+    this.getList()
+  },
+
+  methods: {
+    async getList () {
+      const { data } = await window.$.get('http://localhost:5555/sm/list')
+      this.tableData = [...data]
+    },
+    async getDetail (detail) {
+      const result = await window.$.get('http://localhost:5555/sm', detail)
+    }
   }
 };
 </script>
