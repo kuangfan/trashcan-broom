@@ -9,31 +9,68 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog
+      title="错误详情"
+      :visible.sync="dialogVisible"
+      width="60%"
+      :destroy-on-close="true"
+      :before-close="handleClose"
+    >
+      <div id="code"></div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import * as monaco from "monaco-editor";
+
 export default {
   name: "app",
 
   data() {
     return {
-      tableData: [
-      ]
+      tableData: [],
+      dialogVisible: false,
+      detail: {}
     };
   },
 
-  created () {
-    this.getList()
+  created() {
+    this.getList();
   },
 
   methods: {
-    async getList () {
-      const { data } = await window.$.get('http://localhost:5555/sm/list')
-      this.tableData = [...data]
+    async getList() {
+      const { data } = await window.$.get("http://localhost:5555/sm/list");
+      this.tableData = [...data];
     },
-    async getDetail (detail) {
-      const result = await window.$.get('http://localhost:5555/sm', detail)
+    async getDetail(detail) {
+      const { data } = await window.$.get("http://localhost:5555/sm", detail);
+      this.dialogVisible = true;
+      this.detail = data;
+      this.$nextTick(() => {
+        const editor = monaco.editor.create(document.getElementById("code"), {
+          value: this.detail.content,
+          language: "javascript"
+        })
+        editor.deltaDecorations(
+          [],
+          [
+            {
+              range: new monaco.Range(this.detail.line, 1, this.detail.line, this.detail.column),
+              options: {
+                isWholeLine: true,
+                className: "myContentClass",
+                glyphMarginClassName: "myGlyphMarginClass"
+              }
+            }
+          ]
+        )
+      })
+    },
+    handleClose(done) {
+      this.detail = {};
+      done();
     }
   }
 };
@@ -48,5 +85,18 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   padding: 50px;
+}
+
+#code {
+  width: 100%;
+  height: 500px;
+  text-align: left;
+}
+
+.myGlyphMarginClass {
+	background: red;
+}
+.myContentClass {
+	background: lightblue;
 }
 </style>
