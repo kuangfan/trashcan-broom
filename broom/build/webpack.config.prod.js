@@ -31,6 +31,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, '../public/error.collecting.js'),
           to: path.resolve(__dirname, '../dist')
+        },
+        {
+          from: path.resolve(__dirname, '../public/tracekit.js'),
+          to: path.resolve(__dirname, '../dist')
         }
       ]
     })

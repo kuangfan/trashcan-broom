@@ -1,16 +1,10 @@
+import {
+  createdError,
+  createdAsyncError
+} from './lib'
+
 const errorButton = document.getElementById('error-button')
-const promiseErrorButton = document.getElementById('promise-error-button')
-
-function createdError () {
-  const a = {}
-  a.b()
-}
-
-function createdPromiseError () {
-  new Promise((resolve, reject) => {
-    reject('异步错误')
-  })
-}
+const asyncErrorButton = document.getElementById('async-error-button')
 
 errorButton.addEventListener('click', createdError)
-promiseErrorButton.addEventListener('click', createdPromiseError)
+asyncErrorButton.addEventListener('click', createdAsyncError)
