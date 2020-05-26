@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon app.js",
-    "prev": ""
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
