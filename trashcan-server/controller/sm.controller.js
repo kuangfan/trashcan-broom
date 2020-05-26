@@ -16,7 +16,7 @@ module.exports = {
     await next()
   },
   async getSm (ctx, next) {
-    const report = ctx.request.query
+    const report = ctx.request.body
     const { stack } = report
     let result = ''
     if (stack.length > 0) {

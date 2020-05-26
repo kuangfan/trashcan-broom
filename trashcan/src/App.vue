@@ -16,7 +16,8 @@
       :destroy-on-close="true"
       :before-close="handleClose"
     >
-      <div id="code"></div>
+      <div id="code" v-if="!isNotDetail"></div>
+      <div v-else>暂无详情</div>
     </el-dialog>
   </div>
 </template>
@@ -31,7 +32,8 @@ export default {
     return {
       tableData: [],
       dialogVisible: false,
-      detail: {}
+      detail: {},
+      isNotDetail: false
     };
   },
 
@@ -45,28 +47,33 @@ export default {
       this.tableData = [...data];
     },
     async getDetail(detail) {
-      const { data } = await window.$.get("http://localhost:5555/sm", detail);
+      const { data } = await window.$.post("http://localhost:5555/sm/detail", detail);
       this.dialogVisible = true;
       this.detail = data;
-      this.$nextTick(() => {
-        const editor = monaco.editor.create(document.getElementById("code"), {
-          value: this.detail.content,
-          language: "javascript"
-        })
-        editor.deltaDecorations(
-          [],
-          [
-            {
-              range: new monaco.Range(this.detail.line, 1, this.detail.line, this.detail.column),
-              options: {
-                isWholeLine: true,
-                className: "myContentClass",
-                glyphMarginClassName: "myGlyphMarginClass"
+      if (this.detail !== '') {
+        this.isNotDetail = false
+        this.$nextTick(() => {
+          const editor = monaco.editor.create(document.getElementById("code"), {
+            value: this.detail.content,
+            language: "javascript"
+          })
+          editor.deltaDecorations(
+            [],
+            [
+              {
+                range: new monaco.Range(this.detail.line, 1, this.detail.line, this.detail.column),
+                options: {
+                  isWholeLine: true,
+                  className: "myContentClass",
+                  glyphMarginClassName: "myGlyphMarginClass"
+                }
               }
-            }
-          ]
-        )
-      })
+            ]
+          )
+        })
+      } else {
+        this.isNotDetail = true
+      }
     },
     handleClose(done) {
       this.detail = {};
